@@ -4,6 +4,22 @@
 =end
 #las variables globales se inician con el signo $
 $ejemplo = "Hola Mundo Global"
+class Array
+	def iterar(bloque)
+		self.each_with_index do |n,i|
+			#va realizar un bloque de codigo para cada elemento del arreglo
+			self[i] = bloque.call(n) #con el yield nos vamos al bloque de codigo de abajo
+		end
+	end
+end
+
+arreglo = [1,2,3]
+elevarCuadrado = Proc.new do |n|
+	n**2
+end
+arreglo.iterar(elevarCuadrado)#estamos enviando como parametro elevarCuadrado y se ejecutara para cada elemento del array
+
+
 class HolaMundo
 	def initialize()
 	end
@@ -123,6 +139,66 @@ class HolaMundo
 			print i 
 			i+=1			
 		end
+
+		#entrada de datos por consola
+		puts "Dame tu nombre: \n"
+		nombre = gets
+
+		#para enviar parametros al script al ejecutarlo, definimos en el script:
+		#nombre = ARGV[0]
+		#con ruby holamundo.rb "adan"
+
+		print "Hola "+nombre
+
+		arreglo = [1,2,3,4,5,6]
+		#con indices negativos podemos ir de adelante hacia atras
+		#arreglo[-1] tomaria el ultimo elemento, con -2 el penultimo y asi sucesivamente
+		#puedo agregar elementos con push(nuevoElemento) y con '<<'
+		#operaciones con arreglos
+		#1
+		for i in arreglo 
+			puts i
+		end
+		#2
+		arreglo.each do |i|
+			puts i
+		end 
+		#1 = #2
+		#hace un arreglo nuevo con los numeros pares que estan en arreglo
+		otro = arreglo.select{|numero| numero % 2 == 0}
+		for i in otro
+			puts i 
+		end
+		#otro = arreglo.delete_if{|numero| numero % 2 == 1}
+		#for i in otro
+		#	puts i 
+		#end
+
+		#diccionarios
+		cursos = {'rubi' => 21,'pag_web'=>15}
+		cursos['html5'] = 25 #insertar nuevo valor 
+		puts cursos['rubi'] #visualizar valor en diccionario con la llave
+		cursos.each do |key,value|
+			puts "#{key} tiene #{value} videos"
+		end
+		indices = cursos.keys #crea un arreglo con llaves de diccionario, tambien puede ser .values
+		for i in indices 
+			puts i 
+		end
+
+		#funciones lambdas son similares pero sin nombres, son anonimas
+		#tambien son objetos como todo en ruby
+		lamb = lambda {|numero| numero + 1} #|numero| es el parametro de la funcion
+		puts lamb.call(1) #llamar un lambda llamado lamb que devuelve un valor
+		#lamb = lambda do |nombre| 
+		#etc.
+
+
+		puts 1.method('next') #llama al metodo method de la clase entero y busca el metodo next en esta clase
+		#hasta los metodos son objetos aqui, que loco
+
+		
+
 	end
 end
 
